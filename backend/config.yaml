@@ -1,0 +1,6 @@
+device: cpu
+run_mode: debug
+model_name: llama3
+model_embedding_csv_file: data/llama3-medical.csv
+model_embedding_file: data/llama3-medical-embedding.pkl
+model_chunks_file: data/llama3-medical-chunks.pkl
