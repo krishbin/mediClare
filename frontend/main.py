@@ -21,6 +21,10 @@ def extract_text_from_image(image_file):
 def reports():
     return render_template('reports.html')
 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
 # Serve the HTML template for text input
 @app.route('/text', methods=['GET'])
 def text_simplifier():
