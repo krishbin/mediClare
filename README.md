@@ -198,7 +198,9 @@ It uses the concept of Retrieval Augmented Generation(RAG).
   - **Memory Management**: Responses are stored temporarily to maintain context throughout the session, enhancing the interaction quality.
 - **User Interaction**: Delivers simplified explanations directly to the user.
 
-## How MediClare maintains privacy
+<br>
+
+## How MediClare maintains user-privacy
 The main agenda here was to serve the application to the user. We used Flask here for rapid development but our ideal case scenario was a native mobile app. Here flask is idealized to be just a frontend wrapper and provide a easy functionality that we wanted to add. We are aligning towards a mobile app because
 
 - **Security:** Your data is always with you and your sensitive information is always anonymized when it leaves the phone, leaving no trace of who you are.
