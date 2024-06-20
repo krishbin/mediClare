@@ -25,6 +25,12 @@ The **MediClare- Medical Jargon Simplifier App** aims to address the challenges 
 - **Purpose**: Simplifies medical reports by extracting text from images or PDFs and summarizing key information.
 - **How It Works**: Upload your medical reports, and it generates concise summaries in simple terms.
 
+
+
+## Demo Video
+[Watch the demo video on Google Drive](https://drive.google.com/uc?export=download&id=1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue)
+
+[![Video Title](images/system_architecture.png)](https://drive.google.com/file/d/1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue/view?usp=sharing)
 ## Build it yourself
 
 ### Requirements
