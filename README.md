@@ -203,11 +203,46 @@ We were able to extract some text pairs that can be considered fairly clean from
 
 Apart from that, some text pairs were also obtained with the help of LLMs as follows:
 
-- Some medical descriptions from MEDLANE were given to an LLM for text simplification, which was one of our techniques for data augmentation.
+- Some medical descriptions from MEDLANE were given to an LLM for text simplification.
 - Some unclean text pairs from the above mentioned data sources were given to an LLM to construct clean text pairs.
 - We also instructed an LLM to generate text pairs like the ones we have obtained from the above mentioned procedures.
-### Model validation:
+
+### ii. Model Training
+
+We finetuned T5-base on the text pairs obtained from our data collections process. The medical texts were appended with the "simplify: " task prefix before feeding the text pairs into the model during training.
+
+The following hyperparameters were used during training:
+
+- learning_rate: 3e-05
+- train_batch_size: 4
+- eval_batch_size: 4
+- seed: 42 _(for random data split)_
+- optimizer: Adam with betas=(0.9,0.999) and epsilon=1e-08
+- lr_scheduler_type: linear
+- lr_scheduler_warmup_steps: 1000
+- num_epochs: 10
+- weight_decay=0.01
+
+### iii. Model Evaluation
+
+The model was evaluated using the following metrics:
+
+- Cross-Entropy Loss: It quantifies the difference between the predicted probability distribution and the true distribution of labels.
+- Rouge1: Measures unigram (word) overlap between generated and reference summaries.
+- Rouge2: Measures bigram (two consecutive words) overlap between generated and reference summaries.
+- RougeL: Measures the longest common subsequence (LCS) overlap, capturing sentence-level structure similarity.
+
+The model achieves the following results on our evaluation set:
+
+- Loss: 0.0221
+- Rouge1: 0.8485
+- Rouge2: 0.7157
+- RougeL: 0.8451
+
+### Model validation (Expert feedback):
 All the input-output pairs generated from the model will be saved in the database which will be send to the expert(doctor or health-care professionals) to approve it if correct and edit it if the model prediction is not satisfiable. The validated output will then be used to retrain the model .
+- We also instructed an LLM to generate text pairs like the ones we have obtained from the above mentioned procedures. We used this technique as a form of data augmentation.
+
 ## 2. Medical Report Simplifier
 
 <div align="center">

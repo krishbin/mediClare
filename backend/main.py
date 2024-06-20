@@ -84,9 +84,9 @@ def conversation(conv: ConversationPrompt):
 
 @medicalsearch.get("/simplify_image_report_llm")
 def simplify_image_report(simplify: SearchPrompt ):
-    uuid = db.insert_input(simplify.input)
+    # uuid = db.insert_input(simplify.input)
     response = chatbot.get_chatbot_answer(simplify.input)
-    db.insert_output(uuid, response, "ocr")
+    # db.insert_output(uuid, response, "ocr")
     return response
 
 @medicalsearch.get("/simplify_text_llm_context")

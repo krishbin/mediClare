@@ -58,16 +58,20 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">MediClare</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/reports">Reports</a>
+                <a class="nav-link" href="/">Home</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports">Report</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/jargon">Jargon<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/jargon">Expert Review<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/text">Text</a>
@@ -93,13 +97,14 @@
                 </ul>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Alzheimer's</h5>
-                <p id="card-text" class="card-text">The patient has a condition called a lower oesophageal hiatus hernia, which means that part of their stomach is pushing up into their chest through an opening in their diaphragm...</p>
+                <h5 class="card-title">{{  data.input  }}</h5>
+                <p id="card-text" class="card-text">{{  data.output  }}</p>
                 <textarea id="edit-text" class="form-control" style="display: none;"></textarea>
                 <button id="approve-btn" class="btn btn-primary" onclick="handleAction('approve')">Approve</button>
                 <button id="edit-btn" class="btn btn-primary" onclick="editText()">Edit</button>
                 <button id="save-btn" class="btn btn-primary" style="display: none;" onclick="handleAction('save')">Save</button>
             </div>
+            <div id="feedback_uuid" class="feedback_uuid" style="display: none;">{{ data.uuid}}</div>
         </div>
     </div>
 
@@ -118,22 +123,38 @@
 
         function handleAction(action) {
             const text = action === 'save' ? document.getElementById('edit-text').value : document.getElementById('card-text').innerText;
-            
-            $.post('/handle_jargon', { action: action === 'save' ? 'approve' : action, text: text }, function(response) {
-                if (response.status === 'approved') {
-                    alert('Text approved successfully');
-                    document.getElementById('card-text').innerText = text;
-                    document.getElementById('card-text').style.display = 'block';
-                    document.getElementById('edit-text').style.display = 'none';
-                    document.getElementById('approve-btn').style.display = 'block';
-                    document.getElementById('edit-btn').style.display = 'block';
-                    document.getElementById('save-btn').style.display = 'none';
-                } else if (response.status === 'edit') {
-                    editText();
-                } else {
-                    alert('Error processing request');
-                }
-            });
+            const uuid = document.getElementById('feedback_uuid').innerText;
+
+            const data = {
+        action: action === 'save' ? 'approve' : action,
+        feedback: text,
+        uuid: uuid
+    };
+    const jsonData = JSON.stringify(data);
+    $.ajax({
+        url: '/feedback',
+        type: 'POST',
+        contentType: 'application/json',  // Set content type to JSON
+        data: jsonData,  // Send JSON data
+        success: function(response) {
+            if (response.status === 'approved') {
+                alert('Text approved successfully');
+                document.getElementById('card-text').innerText = text;
+                document.getElementById('card-text').style.display = 'block';
+                document.getElementById('edit-text').style.display = 'none';
+                document.getElementById('approve-btn').style.display = 'block';
+                document.getElementById('edit-btn').style.display = 'block';
+                document.getElementById('save-btn').style.display = 'none';
+            } else if (response.status === 'edit') {
+                editText();
+            }
+            window.location.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed:', textStatus, errorThrown);
+            alert('Failed to send request. Please try again.');
+        }
+    });
         }
     </script>
 </body>
