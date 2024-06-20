@@ -238,7 +238,13 @@ The model achieves the following results on our evaluation set:
 - Rouge2: 0.7157
 - RougeL: 0.8451
 
+<div align="center">
+    <img src="images/training_chart.png" alt="System Architecture Diagram" style="width:100%;">
+    <p><em>Figure 3: Logs during the entire training process</em></p>
+</div>
+
 ### Model validation (Expert feedback):
+
 All the input-output pairs generated from the model will be saved in the database which will be send to the expert(doctor or health-care professionals) to approve it if correct and edit it if the model prediction is not satisfiable. The validated output will then be used to retrain the model .
 
 ## 2. Medical Report Simplifier
@@ -295,6 +301,7 @@ It uses the concept of Retrieval Augmented Generation(RAG).
 <br>
 
 ## How MediClare maintains user-privacy
+
 The main agenda here was to serve the application to the user. We used Flask here for rapid development but our ideal case scenario was a native mobile app. Here flask is idealized to be just a frontend wrapper and provide a easy functionality that we wanted to add. We are aligning towards a mobile app because
 
 - **Security:** Your data is always with you and your sensitive information is always anonymized when it leaves the phone, leaving no trace of who you are.
