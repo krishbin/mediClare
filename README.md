@@ -8,6 +8,7 @@ In the field of healthcare, medical terminology and jargon can be highly complex
 
 The **MediClare- Medical Jargon Simplifier App** aims to address the challenges associated with complex medical language by providing a comprehensive solution for translating, explaining, and simplifying medical jargon. This product is designed to enhance accessibility to medical information, empower patients and caregivers with understandable health insights, and facilitate better communication between healthcare providers and their patients.
 
+
 ## Key Functionalities
 
 ### 1. Medical Text Translator
@@ -24,6 +25,9 @@ The **MediClare- Medical Jargon Simplifier App** aims to address the challenges 
 
 - **Purpose**: Simplifies medical reports by extracting text from images or PDFs and summarizing key information.
 - **How It Works**: Upload your medical reports, and it generates concise summaries in simple terms.
+
+## Demo video
+[![MedClare Demo](images/demo.png)](https://drive.google.com/file/d/1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue/view?usp=sharing)
 
 ## Build it yourself
 
