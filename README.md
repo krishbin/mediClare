@@ -79,7 +79,9 @@ This is a tier-3 architecture where we have tried to isolate work to defined ent
     <img src="images/frontend_hierarchy.png" alt="Frontend Folder layout" style="width:60%;">
     <p><em>Figure 2: Frontend Folder Hierarchy</em></p>
 </div>
-* Frontend web hierarchy
+
+
+- Frontend web hierarchy
   - /reports: upload your report in image and get a simplified <br>
   - /text: enter the medical term and get a simplified result
   - /chat: history aware chat to have a conversation about medical data
