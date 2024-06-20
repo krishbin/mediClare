@@ -1,20 +1,17 @@
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 from utils import relative_path, Logger
+from joblib import dump, load
 import os
 from langchain_community.document_loaders import CSVLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import TokenTextSplitter,RecursiveCharacterTextSplitter
-from datasets import load_dataset
-import pandas as pd
-import csv
 from langchain.chains import RetrievalQA,LLMChain, create_history_aware_retriever
 from langchain.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain_community.llms import Ollama
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
-import pickle
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import HumanMessage
@@ -67,14 +64,16 @@ class Model:
         return ret
 
 class Chatbot:
-    def __init__(self, model_name: str, csv_file: str, embedding_file: str, chunks_file: str):
+    def __init__(self, model_name: str, csv_file: str, embedding_file: str, chunks_file: str,fass_index_file:str):
         self.model_name = model_name
         self._llm = None
         self.csv_file = relative_path(csv_file)
         self.embedding_file = relative_path(embedding_file)
         self.chunks_file = relative_path(chunks_file)
+        self.fass_index_file = relative_path(fass_index_file)
         self.embeddings_saved = False
         self.chunks_saved = False
+        self.faiss_index_saved = False
         self._db = None
         self.memory = ConversationBufferMemory(memory_key="chat_history")
         self.PROMPT_TEMPLATE = """You are a clinical bot that explains medical jargons in simple words. Answer the given questions based on your knowledge and given context.
@@ -90,13 +89,17 @@ class Chatbot:
     @property
     def llm(self):
         if self._llm is None:
+            logger.info("Loading LLM")
             self._llm = Ollama(model=self.model_name)
+            logger.info("LLM loaded successfully")
         return self._llm
     
     @property
     def db(self):
         if self._db is None:
+            logger.info("Loading and chunking documents")
             self._db = self.load_and_chunk_documents()
+            logger.info("Documents loaded and chunked successfully")
         return self._db
     
     @property
@@ -122,16 +125,21 @@ class Chatbot:
         """
         # Load documents from CSV
         if os.path.exists(self.embedding_file):
+            logger.info(f"Loading embeddings from pickle file: {self.embedding_file}")
             with open(self.embedding_file, "rb") as f:
-                embeddings = pickle.load(f)
+                embeddings = load(f)
             self.embeddings_saved = True
+            logger.info(f"Embeddings loaded successfully")
         
         if os.path.exists(self.chunks_file):
+            logger.info(f"Loading chunks from pickle file: {self.chunks_file}")
             with open(self.chunks_file, "rb") as f:
-                chunks = pickle.load(f)
+                chunks = load(f)
             self.chunks_saved = True
+            logger.info(f"Chunks loaded successfully")
         
         if not self.embeddings_saved or not self.chunks_saved:
+            logger.info(f"Loading documents from CSV file: {self.csv_file}")
             loader = CSVLoader(file_path=self.csv_file)
             data = loader.load()
 
@@ -139,16 +147,29 @@ class Chatbot:
             if not self.chunks_saved:
                 text_splitter = RecursiveCharacterTextSplitter(chunk_size=128, chunk_overlap=50)
                 chunks = text_splitter.split_documents(data)
+                logger.info(f"Documents chunked successfully")
                 with open(self.chunks_file, "wb") as f:
-                    pickle.dump(chunks, f)
+                    dump(chunks, f)
+                logger.info(f"Chunks saved to file: {self.chunks_file}")
 
             # Create embeddings
             if not self.embeddings_saved:
                 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+                logger.info("Creating embeddings")
                 with open (self.embedding_file, "wb") as f:
-                    pickle.dump(embeddings, f)
+                    dump(embeddings, f)
+                logger.info(f"Embeddings saved to file: {self.embedding_file}")
         # Build FAISS index
-        db = FAISS.from_documents(chunks, embeddings)
+        if os.path.exists(self.fass_index_file):
+            logger.info(f"Loading FAISS index from file: {self.fass_index_file}")
+            db = FAISS.load_local(self.fass_index_file,embeddings=embeddings,allow_dangerous_deserialization=True)
+            self.faiss_index_saved = True
+            logger.info(f"FAISS index loaded successfully")
+        else:
+            logger.info("Building FAISS index")
+            db = FAISS.from_documents(chunks, embeddings)
+            db.save_local(self.fass_index_file)
+            logger.info(f"FAISS index saved to file: {self.fass_index_file}")
         return db
     
     def get_answer(self,data: dict):

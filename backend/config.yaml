@@ -4,3 +4,11 @@ model_name: llama3
 model_embedding_csv_file: data/llama3-medical.csv
 model_embedding_file: data/llama3-medical-embedding.pkl
 model_chunks_file: data/llama3-medical-chunks.pkl
+model_faiss_index_file: data/llama3-medical-index.faiss
+database_file: data/llama3-medical.db
+database_type: mysql
+database_user: viveka
+database_password: viveka
+database_name: viveka
+database_host: localhost
+database_port: 3306
