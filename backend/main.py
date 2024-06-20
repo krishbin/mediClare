@@ -10,7 +10,7 @@ from services import db as database
 
 db = database(variables["database_file"])
 
-model = Model("nadika/medical_jargons_simplifier")
+model = Model(variables["t5_model_name"])
 chatbot = Chatbot(
     model_name=variables["model_name"],
     csv_file=variables["model_embedding_csv_file"],

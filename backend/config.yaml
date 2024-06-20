@@ -1,5 +1,6 @@
 device: cpu
 run_mode: debug
+t5_model_name: anishbasnet/t5-base-ft-medical-simplifier
 model_name: llama3
 model_embedding_csv_file: data/llama3-medical.csv
 model_embedding_file: data/llama3-medical-embedding.pkl
