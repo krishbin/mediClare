@@ -241,7 +241,6 @@ The model achieves the following results on our evaluation set:
 
 ### Model validation (Expert feedback):
 All the input-output pairs generated from the model will be saved in the database which will be send to the expert(doctor or health-care professionals) to approve it if correct and edit it if the model prediction is not satisfiable. The validated output will then be used to retrain the model .
-- We also instructed an LLM to generate text pairs like the ones we have obtained from the above mentioned procedures. We used this technique as a form of data augmentation.
 
 ## 2. Medical Report Simplifier
 
