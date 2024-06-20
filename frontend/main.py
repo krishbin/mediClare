@@ -6,10 +6,11 @@ import io
 from time import sleep
 import markdown2 as md
 import csv
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+CORS(app)
 def extract_text_from_image(image_file):
     img = Image.open(image_file)
     # Perform OCR on the image
@@ -109,7 +110,29 @@ def upload_text():
 # Route to display current query-output pair
 @app.route('/jargon', methods=['GET'])
 def jargon():
-    return render_template('jargon.html')
+    try:
+        rest_api_url = 'http://127.0.0.1:8000/feedback_random/'
+        response = requests.get(rest_api_url)
+        data = response.json()
+        return render_template('jargon.html', data=data)
+    except Exception as e:
+        return render_template('jargon.html')
+    
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    data = request.json
+    feedback = data.get('feedback')
+    uuid = data.get('uuid')
+
+    if not feedback or not uuid:
+        return jsonify({'error': 'Feedback or UUID not provided'}), 400
+    try:
+        rest_api_url = 'http://127.0.0.1:8000/get_feedback/'
+        response = requests.get(rest_api_url, json={'feedback': feedback, 'uuid': uuid})
+        if response.status_code == 200:
+            return jsonify({'message': 'Feedback submitted successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0")
