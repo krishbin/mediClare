@@ -24,7 +24,7 @@ archive.zip
 models/*
 */models/*
 data/*
-
+flutter/
 # vim temporary files
 *~
 .*.sw?
