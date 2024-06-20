@@ -97,7 +97,7 @@ def upload_text():
 
     try:
         # Replace with the actual URL of your REST API
-        rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm/'
+        rest_api_url = 'http://127.0.0.1:8000/simplify_data/'
         response = requests.get(rest_api_url, json={'input': medical_text})
 
         if response.status_code == 200:
