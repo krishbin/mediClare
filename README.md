@@ -203,9 +203,9 @@ We were able to extract some text pairs that can be considered fairly clean from
 
 Apart from that, some text pairs were also obtained with the help of LLMs as follows:
 
-- Some medical descriptions from MEDLANE were given to an LLM for text simplification, which was one of our techniques for data augmentation.
+- Some medical descriptions from MEDLANE were given to an LLM for text simplification.
 - Some unclean text pairs from the above mentioned data sources were given to an LLM to construct clean text pairs.
-- We also instructed an LLM to generate text pairs like the ones we have obtained from the above mentioned procedures.
+- We also instructed an LLM to generate text pairs like the ones we have obtained from the above mentioned procedures. We used this technique as a form of data augmentation.
 
 ## 2. Medical Report Simplifier
 
