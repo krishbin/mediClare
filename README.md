@@ -50,7 +50,11 @@ The **MediClare- Medical Jargon Simplifier App** aims to address the challenges 
   ```bash
     git clone https://github.com/krishbin/mediClare.git
   ```
-
+  - Setup Database: Ensure you have docker and docker-compose installed
+  ```bash
+    cd database
+    docker compose up -d
+  ```
   - Setup Backend
 
   ```bash
