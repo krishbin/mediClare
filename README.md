@@ -100,7 +100,6 @@ This is a tier-3 architecture where we have tried to isolate work to defined ent
   - Sends user inputs to the backend for processing via REST API requests.
   <div align="center">
       <img src="images/frontend_hierarchy.png" alt="Frontend Folder layout" style="width:60%;">
-      <p><em>Figure 2: Frontend Folder Hierarchy</em></p>
   </div>
 
 - Frontend web hierarchy
@@ -119,7 +118,6 @@ This is a tier-3 architecture where we have tried to isolate work to defined ent
 
   <div align="center">
     <img src="images/backend_hierarchy.png" alt="Backend Folder layout" style="width:70%;">
-    <p><em>Figure 3: Backend Folder Hierarchy</em></p>
   </div>
 
   The backend is written in fastapi which provide multiple api to perform some action on the data that is sent to the cloud.
@@ -301,3 +299,26 @@ The main agenda here was to serve the application to the user. We used Flask her
 - **Security:** Your data is always with you and your sensitive information is always anonymized when it leaves the phone, leaving no trace of who you are.
 
 - **Privacy:** On device information processing to hide the sensitive information before they are sent to the cloud.
+
+## Application Overview
+
+<div align="center">
+    <img src="images/medclare_homepage.png" alt="MedClare Homepage" style="width:100%;">
+    <p><em>Figure 5: MedClare Homepage</em></p>
+</div>
+<div align="center">
+    <img src="images/medclare_report_page.png" alt="MedClare Report Page" style="width:100%;">
+    <p><em>Figure 6: MedClare Report Page</em></p>
+</div>
+<div align="center">
+    <img src="images/medclare_medical_term.png" alt="MedClare Medical Term" style="width:100%;">
+    <p><em>Figure 7: MedClare Medical Term</em></p>
+</div>
+<div align="center">
+    <img src="images/medclare_chatbot.png" alt="MedClare Chatbot" style="width:100%;">
+    <p><em>Figure 8: MedClare Chatbot</em></p>
+</div>
+<div align="center">
+    <img src="images/medclare_expert.png" alt="MedClare Expert" style="width:100%;">
+    <p><em>Figure 9: MedClare Expert</em></p>
+</div>
