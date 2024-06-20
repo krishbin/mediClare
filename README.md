@@ -8,6 +8,7 @@ In the field of healthcare, medical terminology and jargon can be highly complex
 
 The **MediClare- Medical Jargon Simplifier App** aims to address the challenges associated with complex medical language by providing a comprehensive solution for translating, explaining, and simplifying medical jargon. This product is designed to enhance accessibility to medical information, empower patients and caregivers with understandable health insights, and facilitate better communication between healthcare providers and their patients.
 
+
 ## Key Functionalities
 
 ### 1. Medical Text Translator
@@ -25,12 +26,9 @@ The **MediClare- Medical Jargon Simplifier App** aims to address the challenges 
 - **Purpose**: Simplifies medical reports by extracting text from images or PDFs and summarizing key information.
 - **How It Works**: Upload your medical reports, and it generates concise summaries in simple terms.
 
+## Demo video
+[![MedClare Demo](images/video_ss.png)](https://drive.google.com/file/d/1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue/view?usp=sharing)
 
-
-## Demo Video
-[Watch the demo video on Google Drive](https://drive.google.com/uc?export=download&id=1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue)
-
-[![Video Title](images/system_architecture.png)](https://drive.google.com/file/d/1Xm7rhsxKsSrRii9Nhz_Qx_T0byiEKZue/view?usp=sharing)
 ## Build it yourself
 
 ### Requirements
@@ -56,7 +54,11 @@ The **MediClare- Medical Jargon Simplifier App** aims to address the challenges 
   ```bash
     git clone https://github.com/krishbin/mediClare.git
   ```
-
+  - Setup Database: Ensure you have docker and docker-compose installed
+  ```bash
+    cd database
+    docker compose up -d
+  ```
   - Setup Backend
 
   ```bash
@@ -244,7 +246,13 @@ The model achieves the following results on our evaluation set:
 - Rouge2: 0.7157
 - RougeL: 0.8451
 
+<div align="center">
+    <img src="images/training_chart.png" alt="System Architecture Diagram" style="width:100%;">
+    <p><em>Figure 3: Logs during the entire training process</em></p>
+</div>
+
 ### Model validation (Expert feedback):
+
 All the input-output pairs generated from the model will be saved in the database which will be send to the expert(doctor or health-care professionals) to approve it if correct and edit it if the model prediction is not satisfiable. The validated output will then be used to retrain the model .
 
 ## 2. Medical Report Simplifier
@@ -301,6 +309,7 @@ It uses the concept of Retrieval Augmented Generation(RAG).
 <br>
 
 ## How MediClare maintains user-privacy
+
 The main agenda here was to serve the application to the user. We used Flask here for rapid development but our ideal case scenario was a native mobile app. Here flask is idealized to be just a frontend wrapper and provide a easy functionality that we wanted to add. We are aligning towards a mobile app because
 
 - **Security:** Your data is always with you and your sensitive information is always anonymized when it leaves the phone, leaving no trace of who you are.
