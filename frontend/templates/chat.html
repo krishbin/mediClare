@@ -42,17 +42,35 @@
             max-height: 400px; /* Limit the height */
             overflow-y: auto; /* Make it scrollable */
         }
+        .card-text {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        }
         .message {
             margin-bottom: 10px;
             word-wrap: break-word; /* Ensure long messages wrap */
+            display: inline-block;
+            padding: 10px;
+
         }
         .user-message {
             text-align: right;
-            color: #007bff;
+            color: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #007bff;
+            float: right; /* Align to the right */
+            clear: both;
+
         }
         .bot-message {
             text-align: left;
-            color: #28a745;
+            color: #000000;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #e7f0ff;
+            float: left; /* Align to the left */
+            clear: both;
         }
         .input-group {
             margin-top: 20px;
@@ -120,7 +138,6 @@
             Bot is typing<span class="typing-animation">...</span>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         // Function to add a message to the chat container
