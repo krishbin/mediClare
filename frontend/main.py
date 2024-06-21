@@ -47,7 +47,7 @@ def chat_interaction():
 
     try:
         rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm_context/'
-        response = requests.post(rest_api_url, json={'input': user_message})
+        response = requests.get(rest_api_url, json={'input': user_message})
 
         if response.status_code == 200:
             return jsonify({'response': md.markdown(response.content.decode())})
@@ -70,7 +70,7 @@ def upload_pdf():
         extracted_text = extract_text_from_image(file)
         
         rest_api_url = 'http://127.0.0.1:8000/simplify_text_llm/'
-        response = requests.post(rest_api_url, json={'input': extracted_text})
+        response = requests.get(rest_api_url, json={'input': extracted_text})
 
         if response.status_code == 200:
             return jsonify({'simplified_text': md.markdown(response.content.decode())})
@@ -89,7 +89,7 @@ def upload_text():
 
     try:
         rest_api_url = 'http://127.0.0.1:8000/simplify_data/'
-        response = requests.post(rest_api_url, json={'input': medical_text})
+        response = requests.get(rest_api_url, json={'input': medical_text})
 
         if response.status_code == 200:
             return jsonify({'simplified_text': md.markdown(response.content.decode())})
@@ -118,7 +118,7 @@ def feedback():
         return jsonify({'error': 'Feedback or UUID not provided'}), 400
     try:
         rest_api_url = 'http://127.0.0.1:8000/get_feedback/'
-        response = requests.post(rest_api_url, json={'feedback': feedback, 'uuid': uuid})
+        response = requests.get(rest_api_url, json={'feedback': feedback, 'uuid': uuid})
         if response.status_code == 200:
             return jsonify({'message': 'Feedback submitted successfully'})
         else:
