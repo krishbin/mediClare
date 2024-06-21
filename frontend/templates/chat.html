@@ -34,7 +34,6 @@
         .header p {
             color: #6c757d;
         }
-        /* Navigation Bar Styles */
         .navbar-custom {
             padding: 0 50px;
             background-color: #ffffff;
@@ -44,9 +43,9 @@
 
         .navbar-custom .navbar-brand {
             font-weight: bold;
-            color: #007bff; /* Bright blue color */
-            font-size: 24px; /* Larger font size */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Subtle shadow for depth */
+            color: #007bff;
+            font-size: 24px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .navbar-custom .navbar-nav .nav-link {
@@ -55,7 +54,7 @@
         }
         .navbar-custom .navbar-nav .nav-link.active,
         .navbar-custom .navbar-nav .nav-item.active .nav-link {
-            color: #007bff; /* Blue for the active link */
+            color: #007bff;
         }
         .chat-container {
             margin-top: 30px;
@@ -63,8 +62,8 @@
             background-color: #f8f9fa;
             border-radius: 10px;
             text-align: left;
-            max-height: 600px; /* Limit the height */
-            overflow-y: auto; /* Make it scrollable */
+            max-height: 600px;
+            overflow-y: auto;
         }
         .card-text {
         border: 2px solid #ddd;
@@ -72,10 +71,9 @@
         }
         .message {
             margin-bottom: 10px;
-            word-wrap: break-word; /* Ensure long messages wrap */
+            word-wrap: break-word;
             display: inline-block;
             padding: 10px;
-
         }
         .user-message {
             text-align: right;
@@ -83,9 +81,8 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             background-color: #007bff;
-            float: right; /* Align to the right */
+            float: right;
             clear: both;
-
         }
         .bot-message {
             text-align: left;
@@ -93,7 +90,7 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             background-color: #e7f0ff;
-            float: left; /* Align to the left */
+            float: left;
             clear: both;
         }
         .input-group {
@@ -179,23 +176,18 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        // Function to add a message to the chat container
         function addMessage(message, type) {
             const chatContainer = document.getElementById('chat-container');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message ' + type;
             messageDiv.innerHTML = message;
             chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Function to handle sending user message and receiving bot response
         async function sendMessage(message) {
             try {
-                // Show typing indicator
                 document.getElementById('typing-indicator').style.display = 'block';
-
-                // Send user message to backend
                 const response = await fetch('/chat-interaction/', {
                     method: 'POST',
                     headers: {
@@ -211,24 +203,22 @@
                 const responseData = await response.json();
                 const botResponse = responseData.response;
 
-                // Hide typing indicator
                 document.getElementById('typing-indicator').style.display = 'none';
 
-                // Add user message and bot response to the chat interface
                 addMessage(message, 'user-message');
                 addMessage(botResponse, 'bot-message');
             } catch (error) {
                 console.error('Error:', error);
-                // Handle errors, e.g., display an error message on your webpage
                 alert('Error: ' + error.message);
-                // Hide typing indicator on error
                 document.getElementById('typing-indicator').style.display = 'none';
             }
         }
 
-        // Function to handle translation and TTS
         async function speak() {
             try {
+                const speakIcon = document.getElementById('speak-icon');
+                speakIcon.style.pointerEvents = 'none';  // Disable the button
+
                 const lastBotMessage = document.querySelector('.bot-message:last-child').textContent;
                 if (!lastBotMessage) return;
 
@@ -248,28 +238,30 @@
                 const audioUrl = URL.createObjectURL(audioData);
                 const audio = new Audio(audioUrl);
                 audio.play();
+
+                audio.onended = function() {
+                    speakIcon.style.pointerEvents = 'auto';  // Re-enable the button after audio ends
+                };
             } catch (error) {
                 console.error('Error:', error);
                 alert('Error: ' + error.message);
+                document.getElementById('speak-icon').style.pointerEvents = 'auto';  // Re-enable in case of error
             }
         }
 
-        // Event listener for send button click
         document.getElementById('send-btn').addEventListener('click', function(event) {
             event.preventDefault();
             const userInput = document.getElementById('user-input').value.trim();
             if (userInput !== '') {
                 sendMessage(userInput);
-                document.getElementById('user-input').value = ''; // Clear input field
+                document.getElementById('user-input').value = '';
             } else {
                 alert("Please enter a message.");
             }
         });
 
-        // Event listener for speak icon click
         document.getElementById('speak-icon').addEventListener('click', speak);
 
-        // Initial message to start the chat
         sendMessage('Hello');
     </script>
 </body>
